@@ -10,11 +10,27 @@ def instant_velocity(time_now, time_previous, altitude_now, altitude_previous):
 
 
 velocities = []
-rolling_vs = []
+
+lift_off_yet = False
+
+def check_liftoff(velocities):
+    count = 0
+    for v in velocities:
+        if v>0:
+            count +=1
+        else:
+            pass
+    if count >=7:
+        return True
+    else:
+        return False
+    
 
 
+
+liftoff = False
 for index, row in sim.iterrows():
-    print(row["Time (s)"], row["Altitude (m)"])
+    print(index, row["Time (s)"], row["Altitude (m)"])
 
     if index == 0:
         continue
@@ -22,26 +38,12 @@ for index, row in sim.iterrows():
         #v is in m/s
         v = instant_velocity(sim["Time (s)"][index],sim["Time (s)"][index-1], sim["Altitude (m)"][index], sim["Altitude (m)"][index-1])
         velocities.append(v)
-        try:
-            to_calc = []
-            for i in range(5):
-                to_calc.append(velocities[-i])
-            to_calc = to_calc.reverse()
-            for i in range(1,len(to_calc)-1):
-                if to_calc[i] - to_calc[i-1] > 0:
-                    continue
-                    still_good = True
-                else:
-                    still_good = False
-                    break
-                if still_good == True:
-                    print("Liftoff!!!")
-                else:
-                    print("Boring")
-        except Exception:
-            print("Oh fuckaroonie doo, it didn't work yet")
-            continue
-        print(v)
+        if index > 5:
+            liftoff = check_liftoff(velocities)
+    if liftoff== True:
+        print("Liftoff!!!!")
+
+
 
 
     if index <10:
