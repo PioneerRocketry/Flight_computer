@@ -25,9 +25,25 @@ def check_liftoff(velocities):
     else:
         return False
     
+def closetozero(velocity):
+    if -1 <= velocity <= 1:
+        return True
+    else:
+        return False
+
+def apogeeDetector(velocities):
+    for i in range(1,5):
+        #this is where we stopped in the club
+        closetozero(velocities[-i])
 
 
 
+
+
+
+
+
+apogee = False
 liftoff = False
 for index, row in sim.iterrows():
     print(index, row["Time (s)"], row["Altitude (m)"])
@@ -39,9 +55,12 @@ for index, row in sim.iterrows():
         v = instant_velocity(sim["Time (s)"][index],sim["Time (s)"][index-1], sim["Altitude (m)"][index], sim["Altitude (m)"][index-1])
         velocities.append(v)
         if index > 5:
-            liftoff = check_liftoff(velocities)
+            if liftoff == False:
+                liftoff = check_liftoff(velocities)
+    
+    
     if liftoff== True:
-        print("Liftoff!!!!")
+        apogee = apogeeDetector()
 
 
 
