@@ -1,7 +1,6 @@
 import pandas as pd
 import time
 # Event APOGEE occurred at t=8.8872 seconds
-
 sim = pd.read_csv("//PATH//TO//YOUR//COPY//OF//THE//CSV.csv")
 sim = pd.DataFrame(sim)
 
@@ -33,14 +32,21 @@ def closetozero(velocity):
         return False
 
 def apogeeDetector(velocities):
+    good = False
     for i in range(1,5):
         #this is where we stopped in the club
-        closetozero(velocities[-i])
+        if closetozero(velocities[-i]) == True:
+            good = True
+            continue
+        else:
+            good = False
+            break
+    return good
+
 
 
 apogee = False
 liftoff = False
-#main loop simulating the flight
 for index, row in sim.iterrows():
     print(index, row["Time (s)"], row["Altitude (m)"])
 
@@ -54,17 +60,17 @@ for index, row in sim.iterrows():
             if liftoff == False:
                 liftoff = check_liftoff(velocities)
     
-    
+
     if liftoff== True:
-        apogee = apogeeDetector()
+        if index > 20:
+            apogee = apogeeDetector(velocities)
+            if apogee == True:
+                print("APOGEE!!!")
+                break
 
 
 
 
-    if index <10:
-        continue
-    else:
-        break
 
 #we have to detect launch and we have to detect apogee
 
