@@ -1,7 +1,8 @@
 import pandas as pd
 import time
 # Event APOGEE occurred at t=8.8872 seconds
-sim = pd.read_csv("//Users//jeremi//Documents//RocketSimulation//simulation1.csv")
+
+sim = pd.read_csv("//PATH//TO//YOUR//COPY//OF//THE//CSV.csv")
 sim = pd.DataFrame(sim)
 
 
