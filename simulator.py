@@ -38,14 +38,9 @@ def apogeeDetector(velocities):
         closetozero(velocities[-i])
 
 
-
-
-
-
-
-
 apogee = False
 liftoff = False
+#main loop simulating the flight
 for index, row in sim.iterrows():
     print(index, row["Time (s)"], row["Altitude (m)"])
 
