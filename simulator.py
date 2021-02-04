@@ -43,7 +43,7 @@ def apogeeDetector(velocities):
             break
     return good
 
-
+#hello
 
 apogee = False
 liftoff = False
