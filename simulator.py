@@ -52,14 +52,14 @@ class Flight_Computer():
             if self.closetozero(velocities[-i]) == True:
                 count+= 1
                 continue
-        if count > 2:
+        if count >= 2:
             return True
         else:
             return False
 
     def calculate_accuracy(self,prediction, correct):
         accuracy = abs(prediction-correct) / correct
-        return round(1 - accuracy, 5)
+        return round(1-accuracy, 5)
     #hello
     def Fly(self, simulation_frame):
         velocities = []
@@ -82,16 +82,34 @@ class Flight_Computer():
                 if index > 20:
                     apogee = self.apogeeDetector(velocities)
                     if apogee == True:
-                        return [row["Time (s)"],row["Altitude (m)"]]
+                        return [row["Time (s)"],row["Altitude (m)"], self.calculate_accuracy(row["Altitude (m)"], self.correct_apogee_m)]
                         break
 
 apogee_m = 408.54
 apogee_t = 8.8872
-path_to_sim = "//PATH//TO//simulation1.csv"
-Eddie = Flight_Computer(path_to_sim, apogee_m,apogee_t)
-Eddie_for_noise = Flight_Computer(path_to_sim, apogee_m,apogee_t)
-print("Simulation no noise: ",Eddie.Fly(Eddie.sim))
-noise1 = noisy_sim(Eddie_for_noise.sim)
+path_to_sim = "//Users//jeremi//Documents//Flight_computer//simulation1.csv"
+#Eddie = Flight_Computer(path_to_sim, apogee_t,apogee_m)
+#Eddie_for_noise = Flight_Computer(path_to_sim, apogee_t,apogee_m)
+#print("Simulation no noise: ",Eddie.Fly(Eddie.sim))
+#noise1 = noisy_sim(Eddie_for_noise.sim)
 #print(noise1[20:40])
 
-print("Simulation with noise: ", Eddie_for_noise.Fly(noise1))
+#print("Simulation with noise: ", Eddie_for_noise.Fly(noise1))
+
+
+def super_tester():
+    Eddie_test = Flight_Computer(path_to_sim, apogee_t,apogee_m)
+    accuracies = []
+    for i in range(20):
+        try:
+            noised = noisy_sim(Eddie_test.sim)
+            results = Eddie_test.Fly(noised)
+            accuracies.append(results[2])
+        except Exception:
+            accuracies.append(0)
+            continue
+    return accuracies
+accuracies = super_tester()
+avg = lambda lst: sum(lst)/len(lst)
+print("Average accuracy: ",avg(accuracies))
+print("Worst performance: ", min(accuracies))
