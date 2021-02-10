@@ -89,7 +89,7 @@ class Flight_Computer():
 
 apogee_m = 408.54
 apogee_t = 8.8872
-path_to_sim = "//Users//jeremi//Documents//Flight_computer//simulation1.csv"
+path_to_sim = "//PATH//TO//simulation1.csv"
 Eddie = Flight_Computer(path_to_sim, apogee_m,apogee_t)
 #print(noise_1[:10])
 #print(Eddie.sim[0:10])
