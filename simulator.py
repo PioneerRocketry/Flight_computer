@@ -10,7 +10,7 @@ def noisy_sim(sim):
         if index <10:
             row["Altitude (m)"] = row["Altitude (m)"] + random.uniform(0,1)
         else:
-            row["Altitude (m)"] = row["Altitude (m)"] + random.uniform(-1,1)
+            row["Altitude (m)"] = row["Altitude (m)"] + random.uniform(0,1)
     return noisy_sim
 
 
@@ -30,7 +30,7 @@ class Flight_Computer():
     def check_liftoff(self, velocities):
         count = 0
         for v in velocities:
-            if v>0:
+            if v>4:
                 count +=1
             else:
                 pass
@@ -41,22 +41,21 @@ class Flight_Computer():
 
     #apogee detector needs to be changed to a counter system because the true-false approach doesn't work with noise
     def closetozero(self, velocity):
-        if -1 <= velocity <= 1:
+        if -2 <= velocity <= 2:
             return True
         else:
             return False
 
     def apogeeDetector(self,velocities):
-        good = False
-        for i in range(1,5):
-            #this is where we stopped in the club
+        count = 0
+        for i in range(1,7):
             if self.closetozero(velocities[-i]) == True:
-                good = True
+                count+= 1
                 continue
-            else:
-                good = False
-                break
-        return good
+        if count > 2:
+            return True
+        else:
+            return False
 
     def calculate_accuracy(self,prediction, correct):
         accuracy = abs(prediction-correct) / correct
@@ -83,7 +82,6 @@ class Flight_Computer():
                 if index > 20:
                     apogee = self.apogeeDetector(velocities)
                     if apogee == True:
-                        #print("APOGEE!!! ")
                         return [row["Time (s)"],row["Altitude (m)"]]
                         break
 
@@ -91,7 +89,9 @@ apogee_m = 408.54
 apogee_t = 8.8872
 path_to_sim = "//Users//jeremi//Documents//Flight_computer//simulation1.csv"
 Eddie = Flight_Computer(path_to_sim, apogee_m,apogee_t)
-#print(noise_1[:10])
-#print(Eddie.sim[0:10])
+Eddie_for_noise = Flight_Computer(path_to_sim, apogee_m,apogee_t)
+print("Simulation no noise: ",Eddie.Fly(Eddie.sim))
+noise1 = noisy_sim(Eddie_for_noise.sim)
+#print(noise1[20:40])
 
-print(Eddie.Fly(Eddie.sim))
+print("Simulation with noise: ", Eddie_for_noise.Fly(noise1))
