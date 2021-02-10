@@ -78,5 +78,5 @@ class Flight_Computer():
 
 
 
-Eddie_the_Computer = Flight_Computer("//Users//jeremi//Documents//Flight_computer//simulation1.csv")
+Eddie_the_Computer = Flight_Computer("//PATH//TO//simulation1.csv")
 Eddie_the_Computer.Fly()
