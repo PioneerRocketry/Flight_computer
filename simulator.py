@@ -87,7 +87,7 @@ class Flight_Computer():
 
 apogee_m = 408.54
 apogee_t = 8.8872
-path_to_sim = "//Users//jeremi//Documents//Flight_computer//simulation1.csv"
+path_to_sim = "//PATH_TO//simulation1.csv"
 #Eddie = Flight_Computer(path_to_sim, apogee_t,apogee_m)
 #Eddie_for_noise = Flight_Computer(path_to_sim, apogee_t,apogee_m)
 #print("Simulation no noise: ",Eddie.Fly(Eddie.sim))
