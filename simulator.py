@@ -139,6 +139,4 @@ print("Worst accuracy in set: ", min(accuracies))
 print("Percentage total failure: ", failrate)
 print("Average altitude: ", avg(altitudes))
 '''
-=======
-print("Worst performance: ", min(accuracies))
->>>>>>> 02dfd53a5afcfd652b5eb08ad767a020cf9eb432
+
